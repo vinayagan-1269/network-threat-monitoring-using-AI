@@ -58,6 +58,8 @@ Machine Learning Model
         │
         ▼
   Flask Dashboard
+
+
 🛠️ Technologies Used
 Programming
 Python
@@ -74,6 +76,8 @@ WinDump
 CICFlowMeter
 Network Traffic Analysis
 Machine Learning
+
+
 📂 Project Structure
 network-threat-monitoring-using-AI/
 │
@@ -93,6 +97,8 @@ network-threat-monitoring-using-AI/
 │
 └── templates/
     └── dashboard.html
+
+
 ⚙️ How It Works
 1. Network Capture
 
@@ -119,6 +125,7 @@ Network flows and detected security events are stored in an SQLite database for 
 
 6. Dashboard
 
+
 The Flask application provides a web-based dashboard for viewing:
 
 Live network flows
@@ -134,6 +141,7 @@ cd network-threat-monitoring-using-AI
 3. Install Python dependencies
 pip install -r requirements.txt
 🔧 External Dependencies
+
 
 This project also requires:
 
