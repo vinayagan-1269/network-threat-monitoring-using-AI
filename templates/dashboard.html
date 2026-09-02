@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Network Threat Monitor</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <header>
+
+        <div>
+            <h1>AI Network Threat Monitor</h1>
+            <p>Real-time network traffic analysis</p>
+			<p id="last-updated">Last updated: --</p>
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            Monitoring
+        </div>
+
+    </header>
+	<!-- ==================================================
+         REAL-TIME THREAT NOTIFICATION
+    ================================================== -->
+
+    <div id="threat-notification" class="threat-notification">
+    
+        <div class="notification-icon">
+            ⚠
+        </div>
+
+        <div class="notification-content">
+   
+           <div class="notification-title">
+                THREAT DETECTED
+            </div>
+
+            <div id="notification-message">
+                Suspicious network activity detected.
+            </div>
+
+        </div>
+
+        <button
+            class="notification-close"
+            onclick="hideThreatNotification()"
+        >
+            ×
+        </button>
+
+    </div>
+	
+	<section class="controls">
+
+    <div class="control-group">
+
+        <label for="interface-select">
+            Network Interface
+        </label>
+
+        <select id="interface-select">
+            <option value="">
+                Loading interfaces...
+            </option>
+        </select>
+
+    </div>
+
+
+    <div class="control-group">
+
+        <label>
+            Monitoring
+        </label>
+
+        <div class="buttons">
+
+            <button
+                id="start-button"
+                onclick="startMonitoring()"
+            >
+                START MONITORING
+            </button>
+
+            <button
+                id="stop-button"
+                onclick="stopMonitoring()"
+            >
+                STOP MONITORING
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+    <!-- Statistics -->
+
+    <section class="stats">
+
+        <div class="card">
+
+            <h3>Total Flows</h3>
+
+            <p id="total-flows">0</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Benign</h3>
+
+            <p id="benign">0</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Port Scan</h3>
+
+            <p id="portscan">0</p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>DDoS</h3>
+
+            <p id="ddos">0</p>
+
+        </div>
+		
+	</section>
+		<!-- ==================================================
+            TRAFFIC ANALYTICS
+        ================================================== -->
+
+        <section class="analytics-section">
+        
+            <div class="chart-card">
+        
+                <h2>Traffic Distribution</h2>
+        
+                <canvas id="traffic-chart"></canvas>
+        
+            </div>
+   
+
+            <div class="chart-card">
+   
+                <h2>Network Packet Traffic</h2>
+				
+				<p class="chart-description">
+                    Packets observed over time
+                </p>
+
+                <canvas id="threat-chart"></canvas>
+
+            </div>
+
+        </section> 
+
+	<!-- ==================================================
+     THREAT ALERTS
+    ================================================== -->
+    
+    <section class="alerts-section">
+    
+        <div class="section-header">
+    
+            <h2>Threat Alerts</h2>
+    
+            <span class="alert-status">
+                Security Events
+            </span>
+    
+        </div>
+    
+        <div id="alerts-container">
+    
+            <div class="no-alerts">
+                ✓ No threats detected
+            </div>
+    
+        </div>
+    
+    </section>
+
+
+    <!-- Flow Table -->
+
+    <section class="traffic-section">
+
+        <h2>Live Network Flows</h2>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Timestamp</th>
+
+                        <th>Source IP</th>
+
+                        <th>Destination IP</th>
+
+                        <th>Source Port</th>
+
+                        <th>Destination Port</th>
+
+                        <th>Protocol</th>
+
+                        <th>Fwd Packets</th>
+
+                        <th>Bwd Packets</th>
+
+                        <th>Duration</th>
+
+                        <th>Prediction</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="flow-table">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+	
+	<!-- ==================================================
+     MONITORING HISTORY
+    ================================================== -->
+    
+    <section class="history-section">
+    
+        <div class="section-header">
+    
+            <h2>Monitoring History</h2>
+    
+            <span id="history-count">
+                Recorded Flows: 0
+            </span>
+    
+        </div>
+    
+    
+        <div class="history-controls">
+    
+            <button
+                class="history-filter active"
+                onclick="filterHistory('ALL', this)"
+            >
+                All
+            </button>
+    
+            <button
+                class="history-filter"
+                onclick="filterHistory('BENIGN', this)"
+            >
+                BENIGN
+            </button>
+    
+            <button
+                class="history-filter"
+                onclick="filterHistory('PortScan', this)"
+            >
+                PortScan
+            </button>
+     
+            <button
+               class="history-filter"
+               onclick="filterHistory('DDoS', this)"
+            >
+                DDoS
+            </button>
+    
+        </div>
+    
+  
+        <div class="history-table-wrapper">
+    
+            <table class="history-table">
+    
+                <thead>
+
+                    <tr>
+    
+                        <th>Timestamp</th>
+                        <th>Source IP</th>
+                        <th>Destination IP</th>
+                        <th>Source Port</th>
+                        <th>Destination Port</th>
+                        <th>Protocol</th>
+                        <th>Fwd Packets</th>
+                        <th>Bwd Packets</th>
+                        <th>Duration</th>
+                        <th>Prediction</th>
+
+                    </tr>
+    
+                </thead>
+
+                <tbody id="history-table-body">
+
+                </tbody>
+
+            </table>
+ 
+        </div>
+
+    </section>
+	
+	<!-- ==================================================
+     FLOW DETAILS MODAL
+    ================================================== -->
+    
+    <div id="flow-modal" class="flow-modal">
+    
+        <div class="flow-modal-content">
+    
+            <div class="flow-modal-header">
+    
+                <h2>Flow Details</h2>
+    
+                <button
+                    class="modal-close"
+                    onclick="closeFlowModal()"
+                > 
+                    &times;
+                </button>
+    
+            </div>
+    
+    
+            <div
+                id="flow-details"
+                class="flow-details"
+            >
+            </div>
+    
+    
+        </div>
+    
+    </div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
