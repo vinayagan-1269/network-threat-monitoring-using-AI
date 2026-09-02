@@ -32,7 +32,6 @@ Detected network activity and flow information are stored in an SQLite database 
 
 ## 🏗️ System Architecture
 
-```text
 Live Network Traffic
         │
         ▼
