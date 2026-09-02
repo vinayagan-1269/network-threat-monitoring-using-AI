@@ -142,6 +142,13 @@ cd network-threat-monitoring-using-AI
 pip install -r requirements.txt
 🔧 External Dependencies
 
+<img width="1600" height="1000" alt="image" src="https://github.com/user-attachments/assets/155ab49f-53f6-4678-9f7e-a4f4b15dd1d2" />
+
+
+<img width="1920" height="1136" alt="Screenshot (369)" src="https://github.com/user-attachments/assets/61785067-d58a-4ad1-9164-3c70c8474cc4" />
+
+<img width="905" height="488" alt="image" src="https://github.com/user-attachments/assets/0c505955-6a1b-4e1b-98d7-f5276c14ef4f" />
+
 
 This project also requires:
 
